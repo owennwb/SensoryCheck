@@ -80,13 +80,14 @@ export default function Browse() {
   }, [])
 
   async function fetchShows() {
-    const { data, error } = await supabase
-      .from('shows')
-      .select(`*, avg_ratings:ratings(noise,strobes,pyro,smell,crowd,temp,visual), review_count:reviews(count)`)
-      .order('created_at', { ascending: false })
-    if (!error) setShows(data || [])
-    setLoading(false)
-  }
+  const { data, error } = await supabase
+    .from('shows')
+    .select('*')
+    .order('created_at', { ascending: false })
+  if (error) console.log('error', error)
+  if (!error) setShows(data || [])
+  setLoading(false)
+}
 
   function getAvg(show) {
     if (!show.avg_ratings?.length) return 0
